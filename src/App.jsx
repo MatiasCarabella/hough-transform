@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Circle, TrendingUp, Zap, RotateCcw, Play, Info } from 'lucide-react';
+import { Circle, TrendingUp, Zap, RotateCcw, Info } from 'lucide-react';
 
 const HoughTransform = () => {
   const [mode, setMode] = useState('lines');
@@ -15,7 +15,7 @@ const HoughTransform = () => {
   const canvasRef = useRef(null);
   const houghCanvasRef = useRef(null);
   
-  const CANVAS_SIZE = 400;
+  const CANVAS_SIZE = 300; // AJUSTADO: Reducido de 400 a 300
   const HOUGH_SIZE = 300;
   // Optimización: reducir resolución para círculos
   const HOUGH_RESOLUTION = mode === 'circles' ? 2 : 1; // 2 = mitad de resolución
@@ -417,7 +417,7 @@ const HoughTransform = () => {
     ctx.fillStyle = '#ffffff';
     ctx.font = '10px monospace';
     ctx.fillText('0', legendX, legendY - 4);
-          ctx.fillText(`${maxVal}`, legendX + legendWidth - 20, legendY - 4);
+        ctx.fillText(`${maxVal}`, legendX + legendWidth - 20, legendY - 4);
     
   }, [houghSpace, showHoughSpace, detectedShapes, mode]);
 
@@ -439,7 +439,7 @@ const HoughTransform = () => {
       width: '100vw',
       minHeight: '100vh', 
       background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', 
-      padding: '20px',
+      padding: '12px', // AJUSTADO: Reducido de 20px
       boxSizing: 'border-box',
       overflowX: 'hidden'
     }}>
@@ -450,7 +450,7 @@ const HoughTransform = () => {
         background: '#1e293b', 
         borderRadius: '16px', 
         boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.5)', 
-        padding: '24px',
+        padding: '16px', // AJUSTADO: Reducido de 24px
         border: '1px solid #334155',
         boxSizing: 'border-box'
       }}>
@@ -462,7 +462,7 @@ const HoughTransform = () => {
         }}>
           Transformada de Hough - Detección de Formas
         </h2>
-        <p style={{ color: '#94a3b8', marginBottom: '24px', fontSize: 'clamp(13px, 2.5vw, 15px)' }}>
+        <p style={{ color: '#94a3b8', marginBottom: '20px', fontSize: 'clamp(13px, 2.5vw, 15px)' }}> {/* AJUSTADO: Reducido margen inferior */}
           Detección algorítmica de rectas y circunferencias mediante transformación de coordenadas
         </p>
 
@@ -484,60 +484,7 @@ const HoughTransform = () => {
           </div>
         )}
 
-        <div style={{ 
-          display: 'flex', 
-          gap: '12px', 
-          marginBottom: '20px',
-          background: '#0f172a',
-          padding: '8px',
-          borderRadius: '12px',
-          width: '100%',
-          maxWidth: 'fit-content',
-          flexWrap: 'wrap'
-        }}>
-          <button
-            onClick={() => setMode('lines')}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '10px 20px',
-              background: mode === 'lines' ? 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)' : '#1e293b',
-              color: mode === 'lines' ? 'white' : '#94a3b8',
-              border: 'none',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              fontSize: '14px',
-              fontWeight: '600',
-              transition: 'all 0.2s'
-            }}
-          >
-            <TrendingUp size={20} />
-            Rectas (ρ-θ)
-          </button>
-          
-          <button
-            onClick={() => setMode('circles')}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '10px 20px',
-              background: mode === 'circles' ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)' : '#1e293b',
-              color: mode === 'circles' ? 'white' : '#94a3b8',
-              border: 'none',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              fontSize: '14px',
-              fontWeight: '600',
-              transition: 'all 0.2s'
-            }}
-          >
-            <Circle size={20} />
-            Circunferencias (xo-yo)
-          </button>
-        </div>
-
+        {/* --- CONTROLES AGRUPADOS --- */}
         <div style={{ 
           background: '#0f172a', 
           padding: '16px', 
@@ -545,7 +492,64 @@ const HoughTransform = () => {
           marginBottom: '20px',
           border: '1px solid #334155'
         }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '16px', marginBottom: '16px' }}>
+          {/* Fila de botones de modo */}
+          <div style={{ 
+            display: 'flex', 
+            gap: '12px', 
+            marginBottom: '16px', // Espacio antes de los sliders
+            background: '#0f172a', // Mismo fondo
+            padding: '0', // Se quita padding extra
+            borderRadius: '12px',
+            width: '100%',
+            flexWrap: 'wrap'
+          }}>
+            <button
+              onClick={() => setMode('lines')}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '10px 20px',
+                background: mode === 'lines' ? 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)' : '#1e293b',
+                color: mode === 'lines' ? 'white' : '#94a3b8',
+                border: 'none',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: '600',
+                transition: 'all 0.2s',
+                flex: 1 // Para que ocupen espacio
+              }}
+            >
+              <TrendingUp size={20} />
+              Rectas (ρ-θ)
+            </button>
+            
+            <button
+              onClick={() => setMode('circles')}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '10px 20px',
+                background: mode === 'circles' ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)' : '#1e293b',
+                color: mode === 'circles' ? 'white' : '#94a3b8',
+                border: 'none',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: '600',
+                transition: 'all 0.2s',
+                flex: 1 // Para que ocupen espacio
+              }}
+            >
+              <Circle size={20} />
+              Circunferencias (xo-yo)
+            </button>
+          </div>
+          
+          {/* Fila de sliders y botón */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '16px' }}>
             <div>
               <label style={{ color: '#94a3b8', fontSize: '14px', display: 'block', marginBottom: '8px' }}>
                 Umbral de Detección: {threshold}
@@ -583,6 +587,7 @@ const HoughTransform = () => {
                 style={{
                   display: 'flex',
                   alignItems: 'center',
+                  justifyContent: 'center', // Centrar botón
                   gap: '8px',
                   padding: '10px 20px',
                   background: isProcessing ? '#475569' : 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
@@ -658,8 +663,8 @@ const HoughTransform = () => {
                     borderRadius: '4px',
                     maxWidth: '100%',
                     height: 'auto',
-                    display: 'block'
-                  }}
+                  display: 'block'
+                }}
                 />
               </div>
               <p style={{ color: '#64748b', fontSize: 'clamp(11px, 2vw, 13px)', marginTop: '12px' }}>
@@ -775,64 +780,8 @@ const HoughTransform = () => {
           </div>
         )}
 
-        <div style={{ 
-          marginTop: '20px',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
-          gap: '12px'
-        }}>
-          <div style={{ 
-            background: 'rgba(16, 185, 129, 0.1)', 
-            padding: '16px', 
-            borderRadius: '8px',
-            border: '1px solid rgba(16, 185, 129, 0.3)'
-          }}>
-            <h5 style={{ color: '#6ee7b7', fontSize: '14px', fontWeight: '600', marginBottom: '8px' }}>
-              ✓ Ventajas
-            </h5>
-            <ul style={{ color: '#a7f3d0', fontSize: '13px', lineHeight: '1.6', margin: 0, paddingLeft: '20px' }}>
-              <li>Algoritmo determinístico, no iterativo</li>
-              <li>Robusto ante ruido y oclusiones</li>
-              <li>Complejidad temporal acotada O(n·m)</li>
-              <li>No requiere entrenamiento previo</li>
-            </ul>
-          </div>
+        {/* Las secciones de Ventajas, Limitaciones y Tips han sido eliminadas */}
 
-          <div style={{ 
-            background: 'rgba(239, 68, 68, 0.1)', 
-            padding: '16px', 
-            borderRadius: '8px',
-            border: '1px solid rgba(239, 68, 68, 0.3)'
-          }}>
-            <h5 style={{ color: '#fca5a5', fontSize: '14px', fontWeight: '600', marginBottom: '8px' }}>
-              ⚠ Limitaciones
-            </h5>
-            <ul style={{ color: '#fecaca', fontSize: '13px', lineHeight: '1.6', margin: 0, paddingLeft: '20px' }}>
-              <li>Círculos: requiere conocer el radio</li>
-              <li>Alto costo de memoria (espacio 3D para círculos)</li>
-              <li>Sensible a la discretización del espacio</li>
-              <li>Necesita preprocesamiento de imagen</li>
-            </ul>
-          </div>
-        </div>
-
-        <div style={{ 
-          marginTop: '20px',
-          background: 'rgba(251, 191, 36, 0.1)', 
-          padding: '16px', 
-          borderRadius: '8px',
-          border: '1px solid rgba(251, 191, 36, 0.3)'
-        }}>
-          <h5 style={{ color: '#fbbf24', fontSize: '14px', fontWeight: '600', marginBottom: '8px' }}>
-            💡 Tips de Interpretación
-          </h5>
-          <ul style={{ color: '#fcd34d', fontSize: '13px', lineHeight: '1.6', margin: 0, paddingLeft: '20px' }}>
-            <li><strong>Espacio de Hough:</strong> Los colores cálidos (amarillo-rojo) indican alta acumulación de votos</li>
-            <li><strong>Círculos blancos:</strong> Marcan los máximos locales detectados como formas válidas</li>
-            <li><strong>Visualización logarítmica:</strong> Mejora el contraste visual automáticamente</li>
-            <li><strong>Optimización:</strong> En círculos, menor resolución (×2) para mejor rendimiento</li>
-          </ul>
-        </div>
       </div>
     </div>
   );
