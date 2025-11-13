@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { Circle, TrendingUp, Zap, RotateCcw, Info } from 'lucide-react';
+import { useState, useRef, useEffect, useCallback } from 'react'; // React eliminado
+import { Circle, TrendingUp, RotateCcw, Info } from 'lucide-react'; // Zap eliminado
 
 const HoughTransform = () => {
   const [mode, setMode] = useState('lines');
@@ -7,19 +7,20 @@ const HoughTransform = () => {
   const [houghSpace, setHoughSpace] = useState([]);
   const [detectedShapes, setDetectedShapes] = useState([]);
   const [threshold, setThreshold] = useState(3);
-  const [radius, setRadius] = useState(50); // Default 50 está en el nuevo rango [20, 60]
-  const [showHoughSpace, setShowHoughSpace] = useState(true);
+  const [radius, setRadius] = useState(50); 
+  const [showHoughSpace] = useState(true); // setShowHoughSpace eliminado
   const [isProcessing, setIsProcessing] = useState(false);
 
   
   const canvasRef = useRef(null);
   const houghCanvasRef = useRef(null);
   
-  const CANVAS_SIZE = 300;
-  const HOUGH_SIZE = 300;
+  const CANVAS_SIZE = 280;
+  const HOUGH_SIZE = 280;
   const HOUGH_RESOLUTION = mode === 'circles' ? 2 : 1;
 
   const generateSamplePoints = useCallback(() => {
+    // ... (generateSamplePoints function logic) ...
     const newPoints = [];
     
     if (mode === 'lines') {
@@ -82,7 +83,7 @@ const HoughTransform = () => {
   }, [mode, radius]);
 
   const houghTransformLines = () => {
-    // ... (sin cambios) ...
+    // ... (houghTransformLines logic) ...
     const rhoMax = Math.sqrt(CANVAS_SIZE * CANVAS_SIZE * 2);
     const thetaSteps = 180;
     const rhoSteps = Math.floor(rhoMax);
@@ -134,6 +135,7 @@ const HoughTransform = () => {
   };
 
   const houghTransformCircles = () => {
+    // ... (houghTransformCircles logic) ...
     setIsProcessing(true);
     
     setTimeout(() => {
@@ -203,7 +205,7 @@ const HoughTransform = () => {
     }
   }, [points, mode, threshold, radius]);
 
-  // ... (useEffect de Dibujar canvas principal - sin cambios) ...
+  // ... (useEffect de Dibujar canvas principal) ...
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -290,7 +292,7 @@ const HoughTransform = () => {
     }
   }, [points, detectedShapes, mode]);
 
-  // ... (useEffect de Dibujar espacio de Hough - sin cambios) ...
+  // ... (useEffect de Dibujar espacio de Hough) ...
   useEffect(() => {
     if (!showHoughSpace || houghSpace.length === 0) return;
     
@@ -411,16 +413,15 @@ const HoughTransform = () => {
         ctx.fillText(`${maxVal}`, legendX + legendWidth - 20, legendY - 4);
     
   }, [houghSpace, showHoughSpace, detectedShapes, mode]);
-
+  
   // Este useEffect maneja cambios de MODO
   useEffect(() => {
     generateSamplePoints();
     setDetectedShapes([]);
     setHoughSpace([]);
-    // Ajustado al nuevo rango (3-10)
-    setThreshold(mode === 'lines' ? 3 : 10);
+    setThreshold(3); 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mode]); // Solo depende de 'mode'
+  }, [mode]);
 
   // Este useEffect corre la transformada cuando los inputs cambian
   useEffect(() => {
@@ -430,200 +431,179 @@ const HoughTransform = () => {
   }, [points, threshold, radius, runTransform]);
 
   return (
-    <div style={{ 
-      width: '100vw',
-      minHeight: '100vh', 
-      background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', 
-      padding: '12px', 
-      boxSizing: 'border-box',
-      overflowX: 'hidden'
-    }}>
+    <>
+      {/* FIX: Reset de estilos global para eliminar los margenes/paddings del body/html */}
+      <style>{`
+        body, html {
+          margin: 0;
+          padding: 0;
+          overflow-x: hidden !important;
+          box-sizing: border-box;
+        }
+      `}</style>
+      
       <div style={{ 
-        maxWidth: '1400px', 
-        width: '100%',
-        margin: '0 auto', 
-        background: '#1e293b', 
-        borderRadius: '16px', 
-        boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.5)', 
-        padding: '16px', 
-        border: '1px solid #334155',
-        boxSizing: 'border-box'
+        width: '100vw',
+        minHeight: '100vh', 
+        background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', 
+        padding: '12px', 
+        boxSizing: 'border-box',
+        overflowX: 'hidden' 
       }}>
-        <h2 style={{ 
-          fontSize: 'clamp(20px, 5vw, 28px)', 
-          fontWeight: 'bold', 
-          color: '#f1f5f9', 
-          marginBottom: '8px',
-          marginTop: '0' 
-        }}>
-          Transformada de Hough - Detección de Formas
-        </h2>
-        <p style={{ color: '#94a3b8', marginBottom: '20px', fontSize: 'clamp(13px, 2.5vw, 15px)' }}>
-          Detección algorítmica de rectas y circunferencias mediante transformación de coordenadas
-        </p>
-
-        {/* --- CONTROLES AGRUPADOS --- */}
         <div style={{ 
-          background: '#0f172a', 
+          maxWidth: '1380px', 
+          width: '100%',
+          margin: '0 auto', 
+          background: '#1e293b', 
+          borderRadius: '16px', 
+          boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.5)', 
           padding: '16px', 
-          borderRadius: '12px', 
-          marginBottom: '20px',
-          border: '1px solid #334155'
+          border: '1px solid #334155',
+          boxSizing: 'border-box'
         }}>
-          {/* Fila de botones de modo */}
-          <div style={{ 
-            display: 'flex', 
-            gap: '12px', 
-            marginBottom: '16px', 
-            background: '#0f172a', 
-            padding: '0', 
-            borderRadius: '12px',
-            width: '100%',
-            flexWrap: 'wrap'
+          <h2 style={{ 
+            fontSize: 'clamp(20px, 5vw, 28px)', 
+            fontWeight: 'bold', 
+            color: '#f1f5f9', 
+            marginBottom: '8px',
+            marginTop: '0' 
           }}>
-            <button
-              onClick={() => setMode('lines')}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '10px 20px',
-                background: mode === 'lines' ? 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)' : '#1e293b',
-                color: mode === 'lines' ? 'white' : '#94a3b8',
-                border: 'none',
-                borderRadius: '8px',
-                cursor: 'pointer',
-                fontSize: '14px',
-                fontWeight: '600',
-                transition: 'all 0.2s',
-                flex: 1 
-              }}
-            >
-              <TrendingUp size={20} />
-              Rectas (ρ-θ)
-            </button>
-            
-            <button
-              onClick={() => setMode('circles')}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '10px 20px',
-                background: mode === 'circles' ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)' : '#1e293b',
-                color: mode === 'circles' ? 'white' : '#94a3b8',
-                border: 'none',
-                borderRadius: '8px',
-                cursor: 'pointer',
-                fontSize: '14px',
-                fontWeight: '600',
-                transition: 'all 0.2s',
-                flex: 1
-              }}
-            >
-              <Circle size={20} />
-              Circunferencias (xo-yo)
-            </button>
-          </div>
-          
-          {/* Fila de sliders y botón */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '16px' }}>
-            <div>
-              <label style={{ color: '#94a3b8', fontSize: '14px', display: 'block', marginBottom: '8px' }}>
-                Umbral de Votos: {threshold} 
-              </label>
-              <input
-                type="range"
-                // ---------- AJUSTE FINAL: Rango 3-10 ----------
-                min="3"
-                max="10"
-                value={threshold}
-                onChange={(e) => setThreshold(parseInt(e.target.value))}
-                style={{ width: '100%' }}
-              />
-            </div>
+            Transformada de Hough - Detección de Formas
+          </h2>
+          <p style={{ color: '#94a3b8', marginBottom: '20px', fontSize: 'clamp(13px, 2.5vw, 15px)' }}>
+            Detección algorítmica de rectas y circunferencias mediante transformación de coordenadas
+          </p>
 
-            {mode === 'circles' && (
-              <div>
-                <label style={{ color: '#94a3b8', fontSize: '14px', display: 'block', marginBottom: '8px' }}>
-                  Radio Conocido: {radius}px
-                </label>
-                <input
-                  type="range"
-                  min="20"
-                  // ---------- AJUSTE FINAL: Rango 20-60 ----------
-                  max="60"
-                  value={radius}
-                  onChange={(e) => setRadius(parseInt(e.target.value))}
-                  style={{ width: '100%' }}
-                />
-              </div>
-            )}
-            
-            <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-              <button
-                onClick={generateSamplePoints}
-                disabled={isProcessing}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '8px',
-                  padding: '10px 20px',
-                  background: isProcessing ? '#475569' : 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '8px',
-                  cursor: isProcessing ? 'not-allowed' : 'pointer',
-                  fontSize: '14px',
-                  fontWeight: '600',
-                  width: '100%'
-                }}
-              >
-                <RotateCcw size={18} />
-                Nuevos Puntos
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* ... (Resto del JSX sin cambios) ... */}
-        <div style={{ 
-          display: 'grid', 
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', 
-          gap: '20px', 
-          marginBottom: '20px' 
-        }}>
+          {/* --- CONTROLES AGRUPADOS --- */}
           <div style={{ 
             background: '#0f172a', 
             padding: '16px', 
-            borderRadius: '12px',
-            border: '1px solid #334155',
-            textAlign: 'center'
+            borderRadius: '12px', 
+            marginBottom: '20px',
+            border: '1px solid #334155'
           }}>
-            <h3 style={{ color: '#cbd5e1', fontSize: 'clamp(14px, 3vw, 16px)', fontWeight: '600', marginBottom: '12px' }}>
-              Espacio Original (x, y)
-            </h3>
-            <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-              <canvas 
-                ref={canvasRef} 
-                width={CANVAS_SIZE} 
-                height={CANVAS_SIZE}
-                style={{ 
-                  border: '2px solid #475569',
-                  borderRadius: '4px',
-                  maxWidth: '100%',
-                  height: 'auto',
-                  display: 'block'
+            {/* Fila de botones de modo */}
+            <div style={{ 
+              display: 'flex', 
+              gap: '12px', 
+              marginBottom: '16px', 
+              background: '#0f172a', 
+              padding: '0', 
+              borderRadius: '12px',
+              width: '100%',
+              flexWrap: 'wrap'
+            }}>
+              <button
+                onClick={() => setMode('lines')}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '10px 20px',
+                  background: mode === 'lines' ? 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)' : '#1e293b',
+                  color: mode === 'lines' ? 'white' : '#94a3b8',
+                  border: 'none',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  transition: 'all 0.2s',
+                  flex: 1 
                 }}
-              />
+              >
+                <TrendingUp size={20} />
+                Rectas (ρ-θ)
+              </button>
+              
+              <button
+                onClick={() => setMode('circles')}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '10px 20px',
+                  background: mode === 'circles' ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)' : '#1e293b',
+                  color: mode === 'circles' ? 'white' : '#94a3b8',
+                  border: 'none',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  transition: 'all 0.2s',
+                  flex: 1
+                }}
+              >
+                <Circle size={20} />
+                Circunferencias (xo-yo)
+              </button>
             </div>
-            <p style={{ color: '#64748b', fontSize: 'clamp(11px, 2vw, 13px)', marginTop: '12px' }}>
-              {points.length} puntos | {detectedShapes.length} {mode === 'lines' ? 'líneas' : 'círculos'} detectados
-            </p>
+            
+            {/* Fila de sliders y botón */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '16px' }}>
+              <div>
+                <label style={{ color: '#94a3b8', fontSize: '14px', display: 'block', marginBottom: '8px' }}>
+                  Umbral de Votos: {threshold} 
+                </label>
+                <input
+                  type="range"
+                  min="3"
+                  max="10"
+                  value={threshold}
+                  onChange={(e) => setThreshold(parseInt(e.target.value))}
+                  style={{ width: '100%' }}
+                />
+              </div>
+
+              {mode === 'circles' && (
+                <div>
+                  <label style={{ color: '#94a3b8', fontSize: '14px', display: 'block', marginBottom: '8px' }}>
+                    Radio Conocido: {radius}px
+                  </label>
+                  <input
+                    type="range"
+                    min="20"
+                    max="60"
+                    value={radius}
+                    onChange={(e) => setRadius(parseInt(e.target.value))}
+                    style={{ width: '100%' }}
+                  />
+                </div>
+              )}
+              
+              <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+                <button
+                  onClick={generateSamplePoints}
+                  disabled={isProcessing}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px',
+                    padding: '10px 20px',
+                    background: isProcessing ? '#475569' : 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '8px',
+                    cursor: isProcessing ? 'not-allowed' : 'pointer',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    width: '100%'
+                  }}
+                >
+                  <RotateCcw size={18} />
+                  Nuevos Puntos
+                </button>
+              </div>
+            </div>
           </div>
 
-          {showHoughSpace && (
+          {/* ... Área de Canvases ... */}
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
+            gap: '20px', 
+            marginBottom: '20px' 
+          }}>
             <div style={{ 
               background: '#0f172a', 
               padding: '16px', 
@@ -632,13 +612,13 @@ const HoughTransform = () => {
               textAlign: 'center'
             }}>
               <h3 style={{ color: '#cbd5e1', fontSize: 'clamp(14px, 3vw, 16px)', fontWeight: '600', marginBottom: '12px' }}>
-                Espacio de Hough {mode === 'lines' ? '(ρ, θ)' : '(xo, yo)'}
+                Espacio Original (x, y)
               </h3>
               <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
                 <canvas 
-                  ref={houghCanvasRef} 
-                  width={HOUGH_SIZE} 
-                  height={HOUGH_SIZE}
+                  ref={canvasRef} 
+                  width={CANVAS_SIZE} 
+                  height={CANVAS_SIZE}
                   style={{ 
                     border: '2px solid #475569',
                     borderRadius: '4px',
@@ -649,120 +629,151 @@ const HoughTransform = () => {
                 />
               </div>
               <p style={{ color: '#64748b', fontSize: 'clamp(11px, 2vw, 13px)', marginTop: '12px' }}>
-                Mapa de calor: Azul (bajo) → Rojo (alto). Círculos blancos = máximos
+                {points.length} puntos | {detectedShapes.length} {mode === 'lines' ? 'líneas' : 'círculos'} detectados
               </p>
             </div>
-          )}
-        </div>
 
-        <div style={{ 
-          background: 'rgba(59, 130, 246, 0.1)', 
-          padding: '20px', 
-          borderRadius: '12px',
-          border: '1px solid rgba(59, 130, 246, 0.3)',
-          marginBottom: '20px'
-        }}>
-          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-            <Info size={24} style={{ color: '#60a5fa', flexShrink: 0, marginTop: '2px' }} />
-            <div>
-              <h4 style={{ color: '#93c5fd', fontSize: '16px', fontWeight: '600', marginBottom: '8px' }}>
-                {mode === 'lines' ? 'Transformada para Rectas' : 'Transformada para Circunferencias'}
-              </h4>
-              {mode === 'lines' ? (
-                <div style={{ color: '#bfdbfe', fontSize: '14px', lineHeight: '1.6' }}>
-                  <p style={{ marginBottom: '8px' }}>
-                    <strong>Formulación:</strong> <code>ρ = x·cos(θ) + y·sin(θ)</code>
-                  </p>
-                  <p style={{ marginBottom: '8px' }}>
-                    • Cada punto genera una sinusoide en el espacio (ρ,θ)
-                  </p>
-                  <p style={{ marginBottom: '8px' }}>
-                    • Puntos colineales → sinusoides que se intersectan en un punto
-                  </p>
-                  <p>
-                    • Los máximos locales (píxeles rojos brillantes) revelan las rectas presentes
-                  </p>
+            {showHoughSpace && (
+              <div style={{ 
+                background: '#0f172a', 
+                padding: '16px', 
+                borderRadius: '12px',
+                border: '1px solid #334155',
+                textAlign: 'center'
+              }}>
+                <h3 style={{ color: '#cbd5e1', fontSize: 'clamp(14px, 3vw, 16px)', fontWeight: '600', marginBottom: '12px' }}>
+                  Espacio de Hough {mode === 'lines' ? '(ρ, θ)' : '(xo, yo)'}
+                </h3>
+                <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                  <canvas 
+                    ref={houghCanvasRef} 
+                    width={HOUGH_SIZE} 
+                    height={HOUGH_SIZE}
+                    style={{ 
+                      border: '2px solid #475569',
+                      borderRadius: '4px',
+                      maxWidth: '100%',
+                      height: 'auto',
+                      display: 'block'
+                    }}
+                  />
                 </div>
-              ) : (
-                <div style={{ color: '#bfdbfe', fontSize: '14px', lineHeight: '1.6' }}>
-                  <p style={{ marginBottom: '8px' }}>
-                    <strong>Formulación:</strong> Con radio R conocido: <code>(x-xo)² + (y-yo)² = R²</code>
-                  </p>
-                  <p style={{ marginBottom: '8px' }}>
-                    • Cada punto vota por todos los centros posibles a distancia R
-                  </p>
-                  <p style={{ marginBottom: '8px' }}>
-                    • Genera un círculo de votos en el espacio (xo,yo)
-                  </p>
-                  <p>
-                    • Los máximos (píxeles rojos brillantes) revelan los centros de circunferencias
-                  </p>
-                </div>
-              )}
-            </div>
+                <p style={{ color: '#64748b', fontSize: 'clamp(11px, 2vw, 13px)', marginTop: '12px' }}>
+                  Mapa de calor: Azul (bajo) → Rojo (alto). Círculos blancos = máximos
+                </p>
+              </div>
+            )}
           </div>
-        </div>
-
-        {detectedShapes.length > 0 && (
+          {/* ... (Resto de la información y formas detectadas sin cambios) ... */}
           <div style={{ 
-            background: '#0f172a', 
+            background: 'rgba(59, 130, 246, 0.1)', 
             padding: '20px', 
             borderRadius: '12px',
-            border: '1px solid #334155'
+            border: '1px solid rgba(59, 130, 246, 0.3)',
+            marginBottom: '20px'
           }}>
-            <h4 style={{ color: '#cbd5e1', fontSize: '16px', fontWeight: '600', marginBottom: '12px' }}>
-              {mode === 'lines' ? 'Líneas Detectadas' : 'Círculos Detectados'}
-            </h4>
-            <div style={{ display: 'grid', gap: '8px' }}>
-              {detectedShapes.map((shape, idx) => {
-                const colors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
-                const color = colors[idx % colors.length];
-                
-                return (
-                  <div key={idx} style={{ 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    gap: '12px',
-                    padding: '12px',
-                    background: '#1e293b',
-                    borderRadius: '8px',
-                    borderLeft: `4px solid ${color}`
-                  }}>
-                    <div style={{ 
-                      width: '12px', 
-                      height: '12px', 
-                      borderRadius: '50%', 
-                      background: color 
-                    }} />
-                    <span style={{ color: '#cbd5e1', fontSize: '14px', flex: 1 }}>
-                      {mode === 'lines' ? (
-                        shape.theta !== undefined && shape.rho !== undefined 
-                          ? `ρ = ${shape.rho.toFixed(1)}, θ = ${(shape.theta * 180 / Math.PI).toFixed(1)}°`
-                          : 'Datos inválidos'
-                      ) : (
-                        shape.xo !== undefined && shape.yo !== undefined && shape.r !== undefined
-                          ? `Centro: (${shape.xo}, ${shape.yo}), R = ${shape.r}`
-                          : 'Datos inválidos'
-                      )}
-                    </span>
-                    <span style={{ 
-                      color: '#64748b', 
-                      fontSize: '12px',
-                      background: '#0f172a',
-                      padding: '4px 8px',
-                      borderRadius: '4px'
-                    }}>
-                      {shape.votes !== undefined ? shape.votes : 0} votos
-                    </span>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+              <Info size={24} style={{ color: '#60a5fa', flexShrink: 0, marginTop: '2px' }} />
+              <div>
+                <h4 style={{ color: '#93c5fd', fontSize: '16px', fontWeight: '600', marginBottom: '8px' }}>
+                  {mode === 'lines' ? 'Transformada para Rectas' : 'Transformada para Circunferencias'}
+                </h4>
+                {mode === 'lines' ? (
+                  <div style={{ color: '#bfdbfe', fontSize: '14px', lineHeight: '1.6' }}>
+                    <p style={{ marginBottom: '8px' }}>
+                      <strong>Formulación:</strong> <code>ρ = x·cos(θ) + y·sin(θ)</code>
+                    </p>
+                    <p style={{ marginBottom: '8px' }}>
+                      • Cada punto genera una sinusoide en el espacio (ρ,θ)
+                    </p>
+                    <p style={{ marginBottom: '8px' }}>
+                      • Puntos colineales → sinusoides que se intersectan en un punto
+                    </p>
+                    <p>
+                      • Los máximos locales (píxeles rojos brillantes) revelan las rectas presentes
+                    </p>
                   </div>
-                );
-              })}
+                ) : (
+                  <div style={{ color: '#bfdbfe', fontSize: '14px', lineHeight: '1.6' }}>
+                    <p style={{ marginBottom: '8px' }}>
+                      <strong>Formulación:</strong> Con radio R conocido: <code>(x-xo)² + (y-yo)² = R²</code>
+                    </p>
+                    <p style={{ marginBottom: '8px' }}>
+                      • Cada punto vota por todos los centros posibles a distancia R
+                    </p>
+                    <p style={{ marginBottom: '8px' }}>
+                      • Genera un círculo de votos en el espacio (xo,yo)
+                    </p>
+                    <p>
+                      • Los máximos (píxeles rojos brillantes) revelan los centros de circunferencias
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-        )}
 
+          {detectedShapes.length > 0 && (
+            <div style={{ 
+              background: '#0f172a', 
+              padding: '20px', 
+              borderRadius: '12px',
+              border: '1px solid #334155'
+            }}>
+              <h4 style={{ color: '#cbd5e1', fontSize: '16px', fontWeight: '600', marginBottom: '12px' }}>
+                {mode === 'lines' ? 'Líneas Detectadas' : 'Círculos Detectados'}
+              </h4>
+              <div style={{ display: 'grid', gap: '8px' }}>
+                {detectedShapes.map((shape, idx) => {
+                  const colors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
+                  const color = colors[idx % colors.length];
+                  
+                  return (
+                    <div key={idx} style={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      gap: '12px',
+                      padding: '12px',
+                      background: '#1e293b',
+                      borderRadius: '8px',
+                      borderLeft: `4px solid ${color}`
+                    }}>
+                      <div style={{ 
+                        width: '12px', 
+                        height: '12px', 
+                        borderRadius: '50%', 
+                        background: color 
+                      }} />
+                      <span style={{ color: '#cbd5e1', fontSize: '14px', flex: 1 }}>
+                        {mode === 'lines' ? (
+                          shape.theta !== undefined && shape.rho !== undefined 
+                            ? `ρ = ${shape.rho.toFixed(1)}, θ = ${(shape.theta * 180 / Math.PI).toFixed(1)}°`
+                            : 'Datos inválidos'
+                        ) : (
+                          shape.xo !== undefined && shape.yo !== undefined && shape.r !== undefined
+                            ? `Centro: (${shape.xo}, ${shape.yo}), R = ${shape.r}`
+                            : 'Datos inválidos'
+                        )}
+                      </span>
+                      <span style={{ 
+                        color: '#64748b', 
+                        fontSize: '12px',
+                        background: '#0f172a',
+                        padding: '4px 8px',
+                        borderRadius: '4px'
+                      }}>
+                        {shape.votes !== undefined ? shape.votes : 0} votos
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
