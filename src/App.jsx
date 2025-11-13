@@ -1,14 +1,19 @@
-import { useState, useRef, useEffect, useCallback } from 'react'; // React eliminado
-import { Circle, TrendingUp, RotateCcw, Info } from 'lucide-react'; // Zap eliminado
+import { useState, useRef, useEffect, useCallback } from 'react';
+import { Circle, TrendingUp, RotateCcw, Info } from 'lucide-react';
 
 const HoughTransform = () => {
   const [mode, setMode] = useState('lines');
   const [points, setPoints] = useState([]);
   const [houghSpace, setHoughSpace] = useState([]);
   const [detectedShapes, setDetectedShapes] = useState([]);
+  
+  // Estado principal (dispara la Transformada)
   const [threshold, setThreshold] = useState(3);
+  
+  // Eliminado: localThreshold
+  
   const [radius, setRadius] = useState(50); 
-  const [showHoughSpace] = useState(true); // setShowHoughSpace eliminado
+  const [showHoughSpace] = useState(true);
   const [isProcessing, setIsProcessing] = useState(false);
 
   
@@ -20,7 +25,6 @@ const HoughTransform = () => {
   const HOUGH_RESOLUTION = mode === 'circles' ? 2 : 1;
 
   const generateSamplePoints = useCallback(() => {
-    // ... (generateSamplePoints function logic) ...
     const newPoints = [];
     
     if (mode === 'lines') {
@@ -83,7 +87,6 @@ const HoughTransform = () => {
   }, [mode, radius]);
 
   const houghTransformLines = () => {
-    // ... (houghTransformLines logic) ...
     const rhoMax = Math.sqrt(CANVAS_SIZE * CANVAS_SIZE * 2);
     const thetaSteps = 180;
     const rhoSteps = Math.floor(rhoMax);
@@ -135,7 +138,6 @@ const HoughTransform = () => {
   };
 
   const houghTransformCircles = () => {
-    // ... (houghTransformCircles logic) ...
     setIsProcessing(true);
     
     setTimeout(() => {
@@ -205,7 +207,24 @@ const HoughTransform = () => {
     }
   }, [points, mode, threshold, radius]);
 
-  // ... (useEffect de Dibujar canvas principal) ...
+
+  // Este useEffect maneja cambios de MODO
+  useEffect(() => {
+    generateSamplePoints();
+    setDetectedShapes([]);
+    setHoughSpace([]);
+    setThreshold(3); 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode]);
+
+  // Este useEffect corre la transformada cuando los inputs cambian (incluyendo threshold)
+  useEffect(() => {
+    if (points.length > 0) {
+      runTransform();
+    }
+  }, [points, threshold, radius, runTransform]);
+
+  // Efecto para dibujar el Canvas Principal
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -292,7 +311,7 @@ const HoughTransform = () => {
     }
   }, [points, detectedShapes, mode]);
 
-  // ... (useEffect de Dibujar espacio de Hough) ...
+  // Efecto para dibujar el Espacio de Hough
   useEffect(() => {
     if (!showHoughSpace || houghSpace.length === 0) return;
     
@@ -413,22 +432,7 @@ const HoughTransform = () => {
         ctx.fillText(`${maxVal}`, legendX + legendWidth - 20, legendY - 4);
     
   }, [houghSpace, showHoughSpace, detectedShapes, mode]);
-  
-  // Este useEffect maneja cambios de MODO
-  useEffect(() => {
-    generateSamplePoints();
-    setDetectedShapes([]);
-    setHoughSpace([]);
-    setThreshold(3); 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mode]);
 
-  // Este useEffect corre la transformada cuando los inputs cambian
-  useEffect(() => {
-    if (points.length > 0) {
-      runTransform();
-    }
-  }, [points, threshold, radius, runTransform]);
 
   return (
     <>
@@ -548,8 +552,8 @@ const HoughTransform = () => {
                   type="range"
                   min="3"
                   max="10"
-                  value={threshold}
-                  onChange={(e) => setThreshold(parseInt(e.target.value))}
+                  value={threshold} // Usar el estado principal
+                  onChange={(e) => setThreshold(parseInt(e.target.value))} // Actualizar el estado principal inmediatamente
                   style={{ width: '100%' }}
                 />
               </div>
@@ -664,7 +668,7 @@ const HoughTransform = () => {
               </div>
             )}
           </div>
-          {/* ... (Resto de la información y formas detectadas sin cambios) ... */}
+          {/* ... (Resto de la información y formas detectadas) ... */}
           <div style={{ 
             background: 'rgba(59, 130, 246, 0.1)', 
             padding: '20px', 
