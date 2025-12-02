@@ -16,10 +16,10 @@ The Hough Transform is a powerful feature extraction technique used in image ana
 ## 📸 Screenshots
 
 ### Line Detection (ρ-θ space)
-![Line Detection](screenshots/lines-detection.png)
+<img width="1696" height="699" alt="Captura de pantalla 2025-12-01 234037" src="https://github.com/user-attachments/assets/cfb70ae1-a145-4ad3-902e-70df8cd2daaa" />
 
 ### Circle Detection (xo-yo space)
-![Circle Detection](screenshots/circles-detection.png)
+<img width="1690" height="697" alt="Captura de pantalla 2025-12-01 234054" src="https://github.com/user-attachments/assets/b965bcda-41f9-4a50-bade-6e88dc45450a" />
 
 ## ✨ Features
 
