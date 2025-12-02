@@ -1,11 +1,16 @@
+<div align="center">
+
 # Hough Transform Visualizer
 
-![React](https://img.shields.io/badge/React-19.2.0-61DAFB?logo=react&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-7.2.2-646CFF?logo=vite&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?logo=javascript&logoColor=323330)
-![License](https://img.shields.io/badge/License-MIT-blue)
+[![React](https://img.shields.io/badge/React-19.2.0-61DAFB?logo=react&logoColor=white)](https://reactjs.org/)
+[![Vite](https://img.shields.io/badge/Vite-7.2.6-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES2022-F7DF1E?logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![Lucide](https://img.shields.io/badge/Lucide-0.555.0-F56565?logo=lucide&logoColor=white)](https://lucide.dev/)
+[![License](https://img.shields.io/badge/License-MIT-blue)](LICENSE)
 
 An interactive web application for visualizing the **Hough Transform** algorithm, demonstrating real-time detection of lines and circles in 2D space.
+
+</div>
 
 ## 🎯 About
 
