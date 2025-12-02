@@ -1,9 +1,9 @@
 # Hough Transform Visualizer
 
-![React](https://img.shields.io/badge/React-19.2.0-61DAFB?style=for-the-badge&logo=react&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-7.2.2-646CFF?style=for-the-badge&logo=vite&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+![React](https://img.shields.io/badge/React-19.2.0-61DAFB&logo=react&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-7.2.2-646CFF&logo=vite&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E&logo=javascript&logoColor=blac)
+![License](https://img.shields.io/badge/License-MIT-green)
 
 An interactive web application for visualizing the **Hough Transform** algorithm, demonstrating real-time detection of lines and circles in 2D space.
 
@@ -16,10 +16,10 @@ The Hough Transform is a powerful feature extraction technique used in image ana
 ## 📸 Screenshots
 
 ### Line Detection (ρ-θ space)
-![Line Detection](screenshots/lines-detection.png)
+<img width="1696" height="699" alt="Captura de pantalla 2025-12-01 234037" src="https://github.com/user-attachments/assets/cfb70ae1-a145-4ad3-902e-70df8cd2daaa" />
 
 ### Circle Detection (xo-yo space)
-![Circle Detection](screenshots/circles-detection.png)
+<img width="1690" height="697" alt="Captura de pantalla 2025-12-01 234054" src="https://github.com/user-attachments/assets/b965bcda-41f9-4a50-bade-6e88dc45450a" />
 
 ## ✨ Features
 
