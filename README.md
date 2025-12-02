@@ -8,9 +8,9 @@
 [![Lucide](https://img.shields.io/badge/Lucide-0.555.0-F56565?logo=lucide&logoColor=white)](https://lucide.dev/)
 [![License](https://img.shields.io/badge/License-MIT-blue)](LICENSE)
 
-An interactive web application for visualizing the **Hough Transform** algorithm, demonstrating real-time detection of lines and circles in 2D space.
-
 </div>
+
+An interactive web application for visualizing the **Hough Transform** algorithm, demonstrating real-time detection of lines and circles in 2D space.
 
 ## 🎯 About
 
