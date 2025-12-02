@@ -1,16 +1,95 @@
-# React + Vite
+# Hough Transform Visualizer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![React](https://img.shields.io/badge/React-19.2.0-61DAFB?style=for-the-badge&logo=react&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-7.2.2-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-Currently, two official plugins are available:
+An interactive web application for visualizing the **Hough Transform** algorithm, demonstrating real-time detection of lines and circles in 2D space.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🎯 About
 
-## React Compiler
+The Hough Transform is a powerful feature extraction technique used in image analysis and computer vision. This visualizer provides an intuitive, interactive way to understand how the algorithm works by transforming points from Cartesian space to parameter space.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**Live Demo:** [https://MatiasCarabella.github.io/hough-transform](https://MatiasCarabella.github.io/hough-transform)
 
-## Expanding the ESLint configuration
+## 📸 Screenshots
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Line Detection (ρ-θ space)
+![Line Detection](screenshots/lines-detection.png)
+
+### Circle Detection (xo-yo space)
+![Circle Detection](screenshots/circles-detection.png)
+
+## ✨ Features
+
+- **Line Detection (ρ-θ space)**: Visualize how collinear points create sinusoidal curves that intersect in Hough space
+- **Circle Detection (xo-yo space)**: Detect circles with known radius by voting for possible centers
+- **Real-time Visualization**: See both the original space and Hough space side-by-side
+- **Interactive Controls**: Adjust threshold, radius, and generate new sample points
+- **Heat Map Representation**: Color-coded accumulator visualization (blue = low votes, red = high votes)
+- **Responsive Design**: Works seamlessly on desktop and mobile devices
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js (v16 or higher)
+- npm or yarn
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/MatiasCarabella/hough-transform.git
+
+# Navigate to project directory
+cd hough-transform
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+```
+
+The application will be available at `http://localhost:5173`
+
+## 📦 Build & Deploy
+
+```bash
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+
+# Deploy to GitHub Pages
+npm run deploy
+```
+
+## 🛠️ Technology Stack
+
+- **React 19.2** - UI framework
+- **Vite 7.2** - Build tool and dev server
+- **Lucide React** - Icon library
+- **Canvas API** - 2D rendering
+- **ESLint** - Code quality
+
+## 📖 How It Works
+
+### Line Detection
+The algorithm uses the polar coordinate representation: `ρ = x·cos(θ) + y·sin(θ)`
+- Each point generates a sinusoidal curve in (ρ,θ) space
+- Collinear points produce curves that intersect at a single point
+- Local maxima in the accumulator reveal detected lines
+
+### Circle Detection
+For circles with known radius R: `(x-xo)² + (y-yo)² = R²`
+- Each point votes for all possible circle centers at distance R
+- Creates a circular voting pattern in (xo,yo) space
+- Local maxima indicate circle centers
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).

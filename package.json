@@ -1,8 +1,19 @@
 {
-  "name": "hough-transform",
+  "name": "hough-transform-visualizer",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "Interactive Hough Transform visualizer for line and circle detection",
+  "author": "Matias Carabella",
+  "license": "MIT",
   "type": "module",
+  "keywords": [
+    "hough-transform",
+    "computer-vision",
+    "line-detection",
+    "circle-detection",
+    "visualization",
+    "react"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -26,6 +37,7 @@
     "eslint-plugin-react-refresh": "^0.4.24",
     "gh-pages": "^6.3.0",
     "globals": "^16.5.0",
+    "prop-types": "^15.8.1",
     "vite": "^7.2.2"
   },
   "homepage": "https://MatiasCarabella.github.io/hough-transform"
